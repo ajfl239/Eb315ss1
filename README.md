@@ -1,24 +1,81 @@
-# Genome Eb315ss1
+# Genome Assembly and Annotation: Eb315ss1
 
-## check the quality of the dataset
- - Use Fast QC
+## Table of Contents
+### 1. Sequence Data, Quality Assessment and Trimming
+### 2. Genome Assembly
+### 3. Genome Intactness
+### 4. Gene Prediction
 
-## Use Trimmomatic to trim the ends
- - Use Trimmomatic to trim the ends where Phred scores drop below a threshold (threshold in 20-40 range)
+---
 
-## find the recommended k-mer
- - find the recommended k-mer through Velvet Advisor
+## 1. Sequence Data, Quality Assessment and Trimming
+### Goals: 
+- Learn how to assess sequence quality and trim/filter sequence reads to generate improved datasets for downstream analyses
 
-## options of assembly
- - run Spades and Velvet (use recommended k-mer as starting point for Velvet) for two options of assembly
+#### Step 1: Initial Quality Assessment
+We utilized FastQC to inspect the raw "paired-end" reads. This tool identifies systemic sequencing issues by plotting Phred qaulity scored across the length of the read.  
 
-## check genome intactness
- - pick the better assembly (decided by n50 and number of contigs) and run it through BUSCO for genome intactness 
+```
+fastqc \~/sequences/Eb315ss1/Eb315ss1_1.fq.gz \~/sequences/Eb315ss1/Eb315ss1_2.fq.gz -o \~/sequences  
+```
+We can then download the html files that are output using:
+```
+scp ajfl239@ajfl239.cs.uky.edu:\~/sequences/Eb315ss1_1_fastqc.html ./  
+scp ajfl239@ajfl239.cs.uky.edu:\~/sequences/Eb315ss1_2_fastqc.html ./
+```
 
-## submit through NCBI's website
+Opening these files will give us a summary to use in our assessment.  
+
+<img width="1919" height="1028" alt="image"  style="border: 2px solid black;" src="https://github.com/user-attachments/assets/f92858fe-39ef-439b-b939-a08d8424d8ba" />
+
+Warning Triggers: FastQC issues a warning if the median base quality is < 25.  
+Failure Triggers: A failure is issued if the median quality is < 20.
+
+#### Step 2: Quality Filtering and Adapter Trimming
+We utilized Trimmomatic to address quality decline at read ends and removed adapter contamination. Before running Trimmomatic, we first added a polyG motif (G x 20) to adaptors.fa to remove base-caller artifacts.
+```
+java -jar trimmomatic-0.38.jar PE -threads 2 -phred33 \
+-trimlog Eb315ss1_errorlog.txt \
+~/sequences/Eb315ss1/Eb315ss1_1.fq.gz ~/sequences/Eb315ss1/Eb315ss1_2.fq.gz \
+Eb315ss1_1_paired.fastq Eb315ss1_1_unpaired.fastq \
+Eb315ss1_2_paired.fastq Eb315ss1_2_unpaired.fastq \
+ILLUMINACLIP:adaptors.fa:2:30:10 SLIDINGWINDOW:20:20 MINLEN:125
+```
+After this initial run of Trimmomatic, we took the new fastq files and ran them through FastQC to assess how well Trimmomatic did in removing poor quality sequences.
+<img width="1919" height="1031" alt="image" src="https://github.com/user-attachments/assets/39a3f45a-2b53-45a5-b31d-4cca2f0b5d78" />
+In our case, Trimmomatic did a good job removing poor quality sequences.
+
+---
+
+## 2. Genome Assembly
+### Goals: 
+- Learn how to use the command line programs Velvet and SPAdes to generate genome assemblies
+- Assemble the genome of an isolate of the fungus, Pyricularia oryzae
+- Visualize the assembly layout using Bandage
+
+#### Step 1: Find Recommended K-mer Length
+We used Velvet Advisor to assist us in the choice of a suitable k-mer length: https://dna.med.monash.edu.au/~torsten/velvet_advisor/  
 
 
-## Gene Prediction using Augustus and Snap
+<img width="944" height="515" alt="image" src="https://github.com/user-attachments/assets/d87f23b5-e2fa-4344-9cb4-e40e47eb5616" />
+
+#### Step 2: Generate Assembly using Velvet
+
+#### Step 3: Generate Assembly using SPADdes
+
+#### Step 4: Visualize using Bandage
+We utilized Bandage to interrogate the assembly graph and examine contiguity.
+
+<img width="1919" height="1031" alt="bandageresult" src="https://github.com/user-attachments/assets/f1465698-90c0-4392-b264-e7d4efe0bca6" />
+
+---
+
+## 3. Genome Intactness
+ - Busco
+
+---
+
+## 4. Gene Prediction using Augustus and Snap
 - Summarize #s of predicted genes from snap and AUGUSTUS
 - Include screen shot of IGV browser window showing an example of a gene predicted only by snap
 - Include screen shot of IGV browser window showing an example of a gene predicted only by AUGUSTUS

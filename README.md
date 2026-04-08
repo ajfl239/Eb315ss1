@@ -16,12 +16,12 @@
 We utilized FastQC to inspect the raw "paired-end" reads. This tool identifies systemic sequencing issues by plotting Phred qaulity scored across the length of the read.  
 
 ```
-fastqc \~/sequences/Eb315ss1/Eb315ss1_1.fq.gz \~/sequences/Eb315ss1/Eb315ss1_2.fq.gz -o \~/sequences  
+fastqc ~/sequences/Eb315ss1/Eb315ss1_1.fq.gz ~/sequences/Eb315ss1/Eb315ss1_2.fq.gz -o ~/sequences  
 ```
 We can then download the html files that are output using:
 ```
-scp ajfl239@ajfl239.cs.uky.edu:\~/sequences/Eb315ss1_1_fastqc.html ./  
-scp ajfl239@ajfl239.cs.uky.edu:\~/sequences/Eb315ss1_2_fastqc.html ./
+scp ajfl239@ajfl239.cs.uky.edu:~/sequences/Eb315ss1_1_fastqc.html ./  
+scp ajfl239@ajfl239.cs.uky.edu:~/sequences/Eb315ss1_2_fastqc.html ./
 ```
 
 Opening these files will give us a summary to use in our assessment.  

@@ -81,3 +81,11 @@ We utilized Bandage to interrogate the assembly graph and examine contiguity.
 - Include screen shot of IGV browser window showing an example of a gene predicted only by AUGUSTUS
 - Include screen shot of gene where snap and AUGUSTUS predict the same exon/intron structure
 - Include screen shot of gene where snap and AUGUSTUS predict a different exon/intron structure
+
+```
+sbatch maker.sh /project/farman_s26abt480/ajfl239/Eb315ss1/Eb315ss1_final.fasta
+```
+```
+singularity exec /share/singularity/images/ccs/MAKER/amd-maker-debian10.sinf gff3_merge -d Eb315ss1_final.maker.output/Eb315ss1_final_master_datastore_index.log -o Eb315ss1-maker.gff3
+```
+

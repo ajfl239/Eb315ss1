@@ -81,11 +81,34 @@ We utilized Bandage to interrogate the assembly graph and examine contiguity.
 - Include screen shot of IGV browser window showing an example of a gene predicted only by AUGUSTUS
 - Include screen shot of gene where snap and AUGUSTUS predict the same exon/intron structure
 - Include screen shot of gene where snap and AUGUSTUS predict a different exon/intron structure
+- Summarize # of predicted genes from your MAKER run and record the code you used:
+  - to count gene features in your .gff file
+  - to count records in the .fasta file
+- Include a screen shot of a gene where a gene was successfully predicted by SNAP, AUGUSTUS, and MAKER and there is external evidence that the prediction is correct
 
+
+Perform maker:
 ```
 sbatch maker.sh /project/farman_s26abt480/ajfl239/Eb315ss1/Eb315ss1_final.fasta
 ```
+gff3_merge to make Eb315ss1-maker.gff3:
 ```
 singularity exec /share/singularity/images/ccs/MAKER/amd-maker-debian10.sinf gff3_merge -d Eb315ss1_final.maker.output/Eb315ss1_final_master_datastore_index.log -o Eb315ss1-maker.gff3
+```
+Number of Predicted Genes: (12859)
+```
+grep -c $'\tgene\t' Eb315ss1-maker.gff3
+```
+Copy gff3 file into class_GFFs:
+```
+cp Eb315ss1-maker.gff3 /project/farman_s26abt480/CLASS_GFFs/
+```
+fasta_merge:
+```
+singularity exec /share/singularity/images/ccs/MAKER/amd-maker-debian10.sinf fasta_merge -d Eb315ss1_final.maker.output/Eb315ss1_final_master_datastore_index.log -o Eb315ss1
+```
+Count proteins in .proteins.fasta file: (12859)
+```
+grep -c "^>" Eb315ss1.all.maker.proteins.fasta
 ```
 

@@ -112,3 +112,14 @@ Count proteins in .proteins.fasta file: (12859)
 grep -c "^>" Eb315ss1.all.maker.proteins.fasta
 ```
 
+## BLAST
+
+1.  Record code used to identify mitochondrial contigs in MyGenome assembly
+
+2. Record code used to align MyGenome with B71 reference genome
+
+3. Record the number of contigs in MyGenome assembly that lack matches in B71 reference genome
+
+4. Upload gff file of MyGenome aligned against B1 reference
+
+5. Include a screenshot of a B71 chromosome that contains a large block of sequence absent from MyGenome.
